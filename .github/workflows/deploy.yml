@@ -34,6 +34,13 @@ jobs:
                   username: ${{ secrets.SSH_USER }}
                   key: ${{ secrets.SSH_PRIVATE_KEY }}
                   script: |
+                      # install docker-compose if not installed
+                      if ! docker-compose version > /dev/null 2>&1; then
+                          echo "docker-compose not found or broken, installing..."
+                          sudo curl -L "https://github.com/docker/compose/releases/download/v2.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+                          sudo chmod +x /usr/local/bin/docker-compose
+                      fi
+
                       cd /opt/uptime-kuma
                       sudo docker-compose -f compose.yaml pull
                       sudo docker-compose -f compose.yaml up -d
