@@ -35,5 +35,6 @@ jobs:
                 # Pull the latest image & redeploy cont
                   script: |
                       cd /opt/uptime-kuma
+                      sudo sed -i 's/- "3001:3001"/- "80:3001"/' /opt/uptime-kuma/compose.yaml
                       sudo docker-compose -f compose.yaml pull
                       sudo docker-compose -f compose.yaml up -d
